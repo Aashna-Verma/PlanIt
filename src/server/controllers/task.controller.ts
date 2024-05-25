@@ -1,8 +1,24 @@
 import Task from "../models/task.model.js";
+import Day from "../models/day.model.js"; 
 
 const addTask = async (req: any, res: any) => {
     try {
         const task = await Task.create(req.body);
+
+        // Find the existing Day document for the task's deadline
+        const taskDeadline = new Date(task.deadline);
+        taskDeadline.setHours(0, 0, 0, 0); // Ensure only the date part is used
+
+        let day = await Day.findOne({ date: taskDeadline });
+        if (!day) {
+            //if the day does not exist, create a new day
+            day = await Day.create({ date: taskDeadline, tasks: [] });
+        }
+
+        // Add the new task to the day's tasks
+        day.tasks.push(task._id);
+        await day.save();
+
         res.status(200).json(task);
     } catch (error: any) {
         res.status(500).json({ message: error.message });

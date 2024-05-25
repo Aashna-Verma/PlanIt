@@ -5,7 +5,7 @@ const TaskSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: false
+            required: true
         },
         description: {
             type: String,
@@ -17,21 +17,23 @@ const TaskSchema = new mongoose.Schema(
         },
         deadline: {
             type: Date,
-            required: false,
+            required: true,
             default: Date.now
         },
         isEvent: {
             type: Boolean,
-            required: false,
+            required: true,
             default: false
         },
         status: {
             type: String,
-            required: false
+            required: true,
+            default: "Not Started"
         },
         repeat: {
             type: String,
-            required: false
+            required: true,
+            default: "Never"
         },
         project: {
             type: ObjectId,
