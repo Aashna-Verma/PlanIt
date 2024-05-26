@@ -2,6 +2,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import mongoose from "mongoose";
 import taskRoute from "./routes/task.route.js";
+import dayRoute from "./routes/day.route.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //routes
 app.use("/api/tasks", taskRoute);
+app.use("/api/days", dayRoute);
 
 mongoose
 	.connect(
