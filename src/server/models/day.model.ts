@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 
 const DaySchema = new mongoose.Schema(
     {
-        date: {
+        _id: {
             type: Date,
-            required: true
+            required: true,
+            unique: true
         },
         tasks: {
             type: [ObjectId],

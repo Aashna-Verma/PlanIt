@@ -2,8 +2,12 @@ import Day from "../models/day.model.js";
 
 const addDay = async (req: any, res: any) => {
     try {
-        const day = await Day.create(req.body);
-
+        const day = await Day.findOneAndUpdate(
+            { _id: req.body._id },
+            req.body,
+            { upsert: true, new: true } 
+          );
+        
         res.status(200).json(day);
     } catch (error: any) {
         res.status(500).json({ message: error.message });

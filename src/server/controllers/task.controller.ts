@@ -9,10 +9,10 @@ const addTask = async (req: any, res: any) => {
         const taskDeadline = new Date(task.deadline);
         taskDeadline.setHours(0, 0, 0, 0); // Ensure only the date part is used
 
-        let day = await Day.findOne({ date: taskDeadline });
+        let day = await Day.findById(taskDeadline);
         if (!day) {
             //if the day does not exist, create a new day
-            day = await Day.create({ date: taskDeadline, tasks: [] });
+            day = await Day.create({_id: taskDeadline, tasks: [] });
         }
 
         // Add the new task to the day's tasks
