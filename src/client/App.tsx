@@ -12,6 +12,7 @@ function App() {
 	const [currentYear, setCurrentYear] = useState<number>(currentDate.getFullYear());
 
 	const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+	const daysOfWeek = [ "Sun.", "Mon.", "Tue.", "Wed.", "Thur.", "Fri.", "Sat." ];
 
 	useEffect(() => {
 		getDays().then(setDays);
@@ -91,11 +92,13 @@ function App() {
 				</div>
 
 				<div className="grid grid-cols-7 gap-4 ">
+					{daysOfWeek.map((day) => (<h2 className="text-center text-lg text-primary font-bold">{day}</h2>))}
+					{new Date(days[0]._id).getDay() !== 0 && Array(new Date(days[0]._id).getDay()).fill(<div className="card bg-base-200 opacity-50 col-span-1"></div>)}
 					{days.map((day) => (
 						<div key={day._id} className="card bg-base-300 text-primary-content">
 							<div className="card-header">
 								<div className="w-8 h-8 rounded-br-2xl bg-base-100 flex align-center justify-center pr-2">
-									<h2>{getDate(day)}</h2>
+									<h2 className="font-bold">{getDate(day)}</h2>
 								</div>
 							</div>
 							<div className="card-body p-4 pt-2">
