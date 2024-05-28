@@ -7,12 +7,26 @@ import AddTask from "./AddTask";
 
 function App() {
 	const [days, setDays] = useState<Day[]>([]);
+	const [daysOffset, setDaysOffset] = useState<number>(0);
 	const [currentDate, setCurrentDate] = useState<Date>(new Date());
 	const [currentMonth, setCurrentMonth] = useState<number>(currentDate.getMonth());
 	const [currentYear, setCurrentYear] = useState<number>(currentDate.getFullYear());
 
-	const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-	const daysOfWeek = [ "Sun.", "Mon.", "Tue.", "Wed.", "Thur.", "Fri.", "Sat." ];
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	const daysOfWeek = ["Sun.", "Mon.", "Tue.", "Wed.", "Thur.", "Fri.", "Sat."];
 
 	useEffect(() => {
 		getDays().then(setDays);
@@ -46,6 +60,8 @@ function App() {
 				days.push(newDay);
 			}
 		}
+
+		setDaysOffset(new Date(days[0]._id).getDay());
 
 		return days;
 	}
@@ -81,7 +97,7 @@ function App() {
 			<div className="mx-12">
 				<div className="prose grid grid-cols-3 m-6 mb-8">
 					<div className="flex justify-start items-end">
-						<h1 className="text-2xl font-semibold" >{currentYear}</h1>
+						<h1 className="text-2xl font-semibold">{currentYear}</h1>
 					</div>
 					<div className="flex justify-center items-end">
 						<h1 className="text-6xl font-extrabold">{months[currentMonth]}</h1>
@@ -92,8 +108,13 @@ function App() {
 				</div>
 
 				<div className="grid grid-cols-7 gap-4 ">
-					{daysOfWeek.map((day) => (<h2 className="text-center text-lg text-primary font-bold">{day}</h2>))}
-					{new Date(days[0]._id).getDay() !== 0 && Array(new Date(days[0]._id).getDay()).fill(<div className="card bg-base-200 opacity-50 col-span-1"></div>)}
+					{daysOfWeek.map((day) => (
+						<h2 key={day} className="text-center text-lg text-primary font-bold">{day}</h2>
+					))}
+					{daysOffset > 0 &&
+						[...Array(daysOffset)].map((offset) => (
+							<div key={offset} className="card bg-base-200 opacity-50 col-span-1"></div>
+						))}
 					{days.map((day) => (
 						<div key={day._id} className="card bg-base-300 text-primary-content">
 							<div className="card-header">
