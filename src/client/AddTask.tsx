@@ -2,7 +2,8 @@ import { useState } from "react";
 
 export default function AddTask() {
 	const [title, setTitle] = useState("");
-	const [deadline, setDeadline] = useState("");
+	const [deadlineDate, setDeadlineDate] = useState(new Date().toISOString().split("T")[0]);
+	const [deadlineTime, setDeadlineTime] = useState("23:59");
 	const [description, setDescription] = useState("");
 	const [isEvent, setIsEvent] = useState(false);
 	const [isRepeated, setIsRepeated] = useState(false);
@@ -16,11 +17,11 @@ export default function AddTask() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				title,
-				deadline,
-				description,
-				isEvent,
-				isRepeated,
+				"title": title,
+				"deadline": `${deadlineDate}T${deadlineTime}`,
+				"description": description,
+				"isEvent": isEvent,
+				"isRepeated": isRepeated,
 			}),
 		});
 
@@ -56,13 +57,23 @@ export default function AddTask() {
               required
 						/>
 
-						<input
-							type="date"
-							value={deadline}
-							onChange={(e) => setDeadline(e.target.value)}
-							className="input input-bordered w-full my-2"
-              required
-						/>
+						<div className="flex gap-4">
+							<input
+								type="date"
+								value={deadlineDate}
+								onChange={(e) => setDeadlineDate(e.target.value)}
+								className="input input-bordered w-full my-2"
+								required
+							/>
+
+							<input 
+								type="time"
+								value={deadlineTime}
+								onChange={(e) => setDeadlineTime(e.target.value)}
+								className="input input-bordered w-full my-2"
+								required
+							/>
+						</div>
 
 						<textarea
 							placeholder="Description"

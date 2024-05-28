@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Task from "./model_interfaces/task.interface";
 
-export default function Tasks(props: { tasks: string[] }) {
+export default function Tasks(props: { readonly tasks: string[] }) {
 	const [tasks, setTasks] = useState<Task[]>([]);
 
 	useEffect(() => {
@@ -16,7 +16,7 @@ export default function Tasks(props: { tasks: string[] }) {
 		};
 
 		fetchTasks();
-	});
+	}, [props.tasks]);
 
 	return (
 		<ul>
