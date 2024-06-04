@@ -33,9 +33,13 @@ function App() {
 	const daysOfWeek = ["Sun.", "Mon.", "Tue.", "Wed.", "Thur.", "Fri.", "Sat."];
 
 	useEffect(() => {
-		getDays().then(setDays);
+		updateCalender();
 		setIsLoading(false);
 	}, []);
+
+	function updateCalender() {
+		getDays().then(setDays);
+	}
 
 	async function getDays(): Promise<Day[]> {
 		const response = await fetch("/api/days");
@@ -95,6 +99,10 @@ function App() {
 		return new Date(day._id).getDate();
 	}
 
+	function closeTimeLine() {
+		setSelectedDay(null);
+	}
+
 	return (
 		<div className="App">
 			<Nav />
@@ -108,7 +116,7 @@ function App() {
 								<h1 className="text-6xl font-extrabold">{months[currentMonth]}</h1>
 							</div>
 							<div className="flex justify-end items-end">
-								<AddTask />
+								<AddTask updateCalender={updateCalender}/>
 							</div>
 						</div>
 
@@ -153,7 +161,7 @@ function App() {
 
 					{selectedDay && <div className="divider lg:divider-horizontal"></div>}
 
-					<DayInfo day={selectedDay} />
+					<DayInfo day={selectedDay} closeTimeLine={closeTimeLine}/>
 			</div>
 		</div>
 	);

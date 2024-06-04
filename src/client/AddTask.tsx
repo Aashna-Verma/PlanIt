@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function AddTask() {
+export default function AddTask( props: { readonly updateCalender: () => void }){
 	const [title, setTitle] = useState("");
 	const [deadlineDate, setDeadlineDate] = useState(new Date().toISOString().split("T")[0]);
 	const [deadlineTime, setDeadlineTime] = useState("23:59");
@@ -32,6 +32,8 @@ export default function AddTask() {
 		}
 
     (document.getElementById("my_modal_1") as HTMLDialogElement)?.close()
+
+		props.updateCalender();
 	};
 
 	return (
