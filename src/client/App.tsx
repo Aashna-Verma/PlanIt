@@ -7,6 +7,7 @@ import AddTask from "./AddTask";
 import DayInfo from "./DayInfo";
 
 function App() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [days, setDays] = useState<Day[]>([]);
 	const [daysOffset, setDaysOffset] = useState<number>(0);
 	const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -33,6 +34,7 @@ function App() {
 
 	useEffect(() => {
 		getDays().then(setDays);
+		setIsLoading(false);
 	}, []);
 
 	async function getDays(): Promise<Day[]> {
@@ -96,56 +98,62 @@ function App() {
 	return (
 		<div className="App">
 			<Nav />
-			<div className="flex flex-col w-full lg:flex-row">
-				<div className="mx-12 grow">
-					<div className="prose grid grid-cols-3 m-6 mb-8">
-						<div className="flex justify-start items-end">
-							<h1 className="text-2xl font-semibold">{currentYear}</h1>
+			<div className="flex flex-col w-full lg:flex-row px-12 ">
+					<div className="grow">
+						<div className="prose grid grid-cols-3 m-6 mb-8">
+							<div className="flex justify-start items-end">
+								<h1 className="text-2xl font-semibold">{currentYear}</h1>
+							</div>
+							<div className="flex justify-center items-end">
+								<h1 className="text-6xl font-extrabold">{months[currentMonth]}</h1>
+							</div>
+							<div className="flex justify-end items-end">
+								<AddTask />
+							</div>
 						</div>
-						<div className="flex justify-center items-end">
-							<h1 className="text-6xl font-extrabold">{months[currentMonth]}</h1>
-						</div>
-						<div className="flex justify-end items-end">
-							<AddTask />
-						</div>
-					</div>
 
-					<div className="grid grid-cols-7 gap-4 ">
-						{daysOfWeek.map((day) => (
-							<h2 key={day} className="text-center text-lg text-primary font-bold">
-								{day}
-							</h2>
-						))}
-						{daysOffset > 0 &&
-							[...Array(daysOffset)].map((_, index) => (
-								<div
-									key={"offset" + index}
-									className="card bg-base-200 opacity-50 col-span-1"
-								></div>
+						<div className="grid grid-cols-7 gap-4 ">
+							{daysOfWeek.map((day) => (
+								<h2 key={day} className="text-center text-lg text-primary font-bold">
+									{day}
+								</h2>
 							))}
-						{days.map((day) => (
-							<button
-								key={day._id}
-								className="card bg-base-300 text-primary-content"
-								onClick={() => setSelectedDay(day)}
-							>
-								<div className="card-header">
-									<div className="w-8 h-8 rounded-br-2xl bg-base-100 flex items-center justify-center pr-2 pb-1">
-										<h2 className="font-bold">{getDate(day)}</h2>
-									</div>
-								</div>
-								<div className="card-body min-h-[8vh] p-4 pt-2">
-									<Tasks tasks={day.tasks} />
-								</div>
-							</button>
-						))}
+							{isLoading ? (
+								<div>Loading ...</div>
+							) : (
+								<>
+									{daysOffset > 0 &&
+										[...Array(daysOffset)].map((_, index) => (
+											<div
+												key={"offset" + index}
+												className="card bg-base-200 opacity-50 col-span-1"
+											></div>
+										))}
+
+									{days.map((day) => (
+										<button
+											key={day._id}
+											className="card bg-base-300 text-primary-content"
+											onClick={() => setSelectedDay(day)}
+										>
+											<div className="card-header">
+												<div className="w-8 h-8 rounded-br-2xl bg-base-100 flex items-center justify-center pr-2 pb-1">
+													<h2 className="font-bold">{getDate(day)}</h2>
+												</div>
+											</div>
+											<div className="card-body min-h-[8vh] p-4 pt-2">
+												<Tasks tasks={day.tasks} />
+											</div>
+										</button>
+									))}
+								</>
+							)}
+						</div>
 					</div>
-				</div>
 
-				{selectedDay && <div className="divider lg:divider-horizontal"></div>}
+					{selectedDay && <div className="divider lg:divider-horizontal"></div>}
 
-				<DayInfo day={selectedDay} />
-
+					<DayInfo day={selectedDay} />
 			</div>
 		</div>
 	);
