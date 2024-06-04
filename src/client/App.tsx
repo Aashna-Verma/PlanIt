@@ -16,22 +16,6 @@ function App() {
 
 	const [selectedDay, setSelectedDay] = useState<Day | null>(null);
 
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
-	const daysOfWeek = ["Sun.", "Mon.", "Tue.", "Wed.", "Thur.", "Fri.", "Sat."];
-
 	useEffect(() => {
 		updateCalender();
 		setIsLoading(false);
@@ -99,8 +83,21 @@ function App() {
 		return new Date(day._id).getDate();
 	}
 
+	function removeAllClassNames(c : string) {
+		document.querySelectorAll("." + c).forEach((btn) => {
+			btn.classList.remove(c);
+		});
+	}
+	
 	function closeTimeLine() {
+		removeAllClassNames('date-selected');
 		setSelectedDay(null);
+	}
+
+	function selectDay(e : React.MouseEvent<HTMLButtonElement, MouseEvent> , day : Day) {
+			removeAllClassNames('date-selected');
+      e.currentTarget.classList.add('date-selected');
+      setSelectedDay(day);
 	}
 
 	return (
@@ -141,12 +138,12 @@ function App() {
 									{days.map((day) => (
 										<button
 											key={day._id}
-											className="card bg-base-300 text-primary-content"
-											onClick={() => setSelectedDay(day)}
+											className="card date-selected bg-base-300 text-primary-content"
+											onClick={(e) => selectDay(e, day)}
 										>
 											<div className="card-header">
 												<div className="w-8 h-8 rounded-br-2xl bg-base-100 flex items-center justify-center pr-2 pb-1">
-													<h2 className="font-bold">{getDate(day)}</h2>
+													<h2 className="font-bold ">{getDate(day)}</h2>
 												</div>
 											</div>
 											<div className="card-body min-h-[8vh] p-4 pt-2">
@@ -168,3 +165,19 @@ function App() {
 }
 
 export default App;
+
+const months = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+];
+const daysOfWeek = ["Sun.", "Mon.", "Tue.", "Wed.", "Thur.", "Fri.", "Sat."];
