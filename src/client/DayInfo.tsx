@@ -88,10 +88,9 @@ function TaskBlock(props: {task: Task, scrollHeight: number}) {
 
   return (
     <div
-      className="task absolute rounded-xl pl-2"
+      className="task absolute rounded-xl pl-2 bg-primary"
       style={{
         top: `${top + 10}px`,
-        backgroundColor: "red",
         marginLeft: "12%",
         width: "85%",
         opacity: 0.5,
