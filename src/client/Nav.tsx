@@ -1,3 +1,4 @@
+import planItLogo from "../../public/PlanIt_Logo.svg";
 export default function Nav() {
   return (
   <div className="navbar bg-base-100">
@@ -42,7 +43,11 @@ className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 round
 </li>
 </ul> */}
       </div>
-      <a className="btn btn-ghost text-xl">PlanIt</a>
+      
+      <a className="btn btn-ghost text-xl">
+        <img className="w-12 h-12" src={planItLogo} alt="logo" />
+        PlanIt
+        </a>
     </div>
     <div className="navbar-center hidden lg:flex">
       {/* <ul className="menu menu-horizontal px-1">
@@ -68,7 +73,7 @@ className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 round
 </ul> */}
     </div>
     <div className="navbar-end">
-      <div className="dropdown dropdown-end">
+      {/* <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
           <div className="w-10 rounded-full">
             <img
@@ -94,7 +99,7 @@ className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 round
             <a>Logout</a>
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   </div>
 );
